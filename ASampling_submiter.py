@@ -6,6 +6,7 @@ skip:int = -1
 
 if(len(sys.argv)>1):
     winCount = int(sys.argv[1])
+if(len(sys.argv)>=3):
     skip = int(sys.argv[2])
 
 mainDir = os.getcwd()
