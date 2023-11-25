@@ -27,7 +27,7 @@ def phase01() -> None:
 #preparation of smd_out.dat file    
 def phase02() ->None:
     #prepare smd_out.dat
-    os.system(f"mv {PATH_SMD}/storage/output.dat {PATH_SMD}/storage/md0004.output.dat")
+    os.system(f"mv {PATH_SMD}/output.dat {PATH_SMD}/storage/md0004.output.dat")
     
     fill=""
     for i in range(1,5):
