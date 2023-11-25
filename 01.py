@@ -55,7 +55,7 @@ def phase03_custom() ->None:
     os.mkdir("FE/inputs")
     os.chdir(os.getcwd()+"/FE/inputs")
     
-    tprFile = '../md0001.tpr'
+    tprFile = '../md0004.tpr'
     xtcFile = '../trajout.xtc'
     
     input_file:str = "../smd_out.dat"
