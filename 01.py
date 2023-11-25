@@ -43,7 +43,7 @@ def phase02() ->None:
 
     os.system("""sed '/^#/d; s/^ //g' tmp.dat | cut -f 1,2 -d ' ' > smd_out.dat 
               sed -i ' 1,5000d' smd_out.dat 
-              sed -i '1 i\time cv' smd_out.dat""")
+              sed -i '1 i\ttime cv' smd_out.dat""")
     
 
 # creates windows equally distributed regarding frames 
