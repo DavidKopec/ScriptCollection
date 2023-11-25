@@ -10,7 +10,7 @@ if(len(sys.argv)>1):
 
 mainDir = os.getcwd()
 
-for i in range(1,winCount+1):
+for i in range(0,winCount+1):
     
     if(i==skip):
         continue
