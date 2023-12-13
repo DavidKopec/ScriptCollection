@@ -8,23 +8,29 @@ PROT = "GLY ALA VAL CYS PRO LEU ILE MET TRP PHE LYS ARG HIS SER THR TYR ASN GLN 
 
 
 def prepare_peptides(count:int) ->None:
-    coords = [1,1,0] # coordinates on start
-    shifts = [[0,0],[1,0],[0,1],[1,1],[1,-1]] # shifts we want to use
+    coords = [0,0,0] # coordinates on start
+    shifts = [[0,0],[1.2,0],[0,1.2],[1.2,1.2],[1.2,-1.2]] # shifts we want to use
     
-    peptide_num = 1 # how many peptides were generated already
+    peptide_num = 0 # how many peptides were generated already
+    x,y,_ = coords
     while(peptide_num<count):
         for i,shift in enumerate(shifts):
             X,Y = shift
             for _ in range(2): # to do the shift in both (positive and negative direction)
-                X=-X
+                X=-X # shifts for each direction
                 Y=-Y
+                
+                x+=X # actual updated coords
+                y+=Y
+                #input(f"peptide{peptide_num}, shift: {X,Y} ...")
                 os.system(f"""module add {GROMACS_V}
-                            gmx editconf -f MP1_rdy.pdb -O MP1_{i}.pdb -translate {X} {Y} 0""")#
+                            gmx editconf -f MP1_rdy.pdb -o MP1_{peptide_num}.pdb -translate {x} {y} 0""")#
                 peptide_num+=1
                 if(i==0 or peptide_num==count):
                     break
             if(peptide_num==count):break
 
+# need to add the topology editation part !!!!
 def assemble_system(count:int):
 
     fill=""
@@ -103,11 +109,11 @@ def main():
         print("Usage: python3 script.py peptide_count")
         sys.exit()
     
-    prepare_peptides()
-    assemble_system()
+    #prepare_peptides(int(sys.argv[1]))
+    #assemble_system(int(sys.argv[1]))
     ionize()
-    index_file()
-    std_sim()
+    #index_file()
+    #std_sim()
     
     pass
 
