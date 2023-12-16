@@ -8,27 +8,24 @@ PROT = "GLY ALA VAL CYS PRO LEU ILE MET TRP PHE LYS ARG HIS SER THR TYR ASN GLN 
 
 
 def prepare_peptides(count:int) ->None:
-    coords = [0,0,0] # coordinates on start
-    shifts = [[0,0],[2,3.5],[0,3.5],[2,2],[2,-2]] # shifts we want to use
-    
-    peptide_num = 0 # how many peptides were generated already
-    x,y,_ = coords
-    while(peptide_num<count):
-        for i,shift in enumerate(shifts):
-            X,Y = shift
-            for _ in range(2): # to do the shift in both (positive and negative direction)
-                X=-X # shifts for each direction
-                Y=-Y
-                
-                x+=X # actual updated coords
-                y+=Y
-                #input(f"peptide{peptide_num}, shift: {X,Y} ...")
-                os.system(f"""module add {GROMACS_V}
-                            gmx editconf -f MP1_rdy.pdb -o MP1_{peptide_num}.pdb -translate {x} {y} 0""")#
-                peptide_num+=1
-                if(i==0 or peptide_num==count):
-                    break
-            if(peptide_num==count):break
+    peptide_count = 0
+    layer=0
+    initial_shift = [0,0]
+
+    def make_peptide(x,y):
+        os.system(f"""module add {GROMACS_V}
+                  gmx editconf -f MP1_rdy.pdb -o MP1_{peptide_count}.pdb -translate {x} {y} 0""")
+
+    while peptide_count < count:
+        for dx in range(-layer,layer+1):
+            for dy in range(-layer,layer+1):
+                x,y = initial_shift
+                x+=dx;y+=dy
+                make_peptide(x,y)
+                if peptide_count==count:break
+            if peptide_count==count:break
+        
+        layer+=1
 
 def assemble_system(count:int):
 
